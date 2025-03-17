@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import requests
 import os
 import logging
@@ -7,6 +8,19 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 app = FastAPI()
+
+# Enable CORS for your Neocities frontend
+origins = [
+    "https://ai-fronthead.neocities.org",  # Your Neocities site URL
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,           # Allows requests from specified origins
+    allow_credentials=True,
+    allow_methods=["*"],             # Allows all HTTP methods
+    allow_headers=["*"],             # Allows all headers
+)
 
 # Load API key from environment variables (set in Koyeb dashboard)
 API_KEY = os.getenv("AI_API_KEY")
